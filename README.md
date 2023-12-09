@@ -1,5 +1,5 @@
 [lab官网](https://csapp.cs.cmu.edu/3e/labs.html)
-# 环境配置
+# 1 环境配置
 docker linux
 
 试了centos和ubuntu 还是ubuntu更好一些(我也更熟悉一些)
@@ -11,3 +11,10 @@ docker linux
 文件如果下载不了
 
 右键 复制链接地址 在浏览器粘贴地址
+# 2 gdb
+```shell
+#生成debug可执行文件test
+g++ -g test.cpp -o test
+#反汇编生成汇编文件test.asm
+objdump -d test > test.asm
+```
