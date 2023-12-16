@@ -18,3 +18,17 @@ g++ -g test.cpp -o test
 #反汇编生成汇编文件test.asm
 objdump -d test > test.asm
 ```
+gdb模式下：
+```shell
+x 0x6044e4 打印0x6044e4这个地址的值
+x/x 以16进制
+x/d 以10进制
+x/s 以字符串
+
+p 0x123 打印0x123
+p *0x123 打印0x123这个地址的值
+p *(int*)0x123 打印0x123这个地方的指针指向的地址的值
+p/x 16进制
+p/d 10进制
+p/s 字符串(不确定)
+```
