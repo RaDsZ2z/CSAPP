@@ -11,6 +11,18 @@ docker linux
 文件如果下载不了
 
 右键 复制链接地址 在浏览器粘贴地址
+
+23.12.16
+
+ubuntu始终没法正常使用gdb，但是今天试了一下centos可以...
+
+决定把环境换成centos，两个参考
+
+https://blog.csdn.net/weixin_43252521/article/details/124409151
+
+https://zhuanlan.zhihu.com/p/339047608
+
+
 # 2 gdb
 ```shell
 #生成debug可执行文件test
