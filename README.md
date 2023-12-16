@@ -22,7 +22,23 @@ https://blog.csdn.net/weixin_43252521/article/details/124409151
 
 https://zhuanlan.zhihu.com/p/339047608
 
+23.12.17
 
+之前ubuntu的参数是
+
+docker run --cap-add=SYS_PTRACE --security-opt seccomp=unconfined -it --platform linux/amd64 -v "/Users/rads/study/csapp:/csapp" --name=csapp ubuntu:22.04 /bin/bash
+
+简单换成
+
+docker run --cap-add=SYS_PTRACE --security-opt seccomp=unconfined -it --platform linux/amd64 -v "/Users/rads/study/csapp:/csapp" --name=csapp centos:latest /bin/bash
+
+还是不能正常使用gdb
+
+这么看来可能不是ubuntu的问题而是参数问题？
+
+可以使用gdb的参数：
+
+docker container run -it -v /Users/rads/study/csapp:/csapp --name=csapp centos /bin/bash
 # 2 gdb
 ```shell
 #生成debug可执行文件test
