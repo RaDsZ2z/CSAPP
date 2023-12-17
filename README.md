@@ -58,6 +58,10 @@ https://blog.csdn.net/suixinfeixiangfei/article/details/133802925
 最终选择了这个
 
 https://blog.csdn.net/luzhengyang2077/article/details/129910484
+
+共享文件夹
+
+https://blog.csdn.net/weixin_45042601/article/details/131286353
 # 2 gdb
 ```shell
 #生成debug可执行文件test
