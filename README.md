@@ -24,7 +24,7 @@ https://blog.csdn.net/weixin_43252521/article/details/124409151
 
 https://zhuanlan.zhihu.com/p/339047608
 
-23.12.17
+23.12.17 12:00
 
 之前ubuntu的参数是
 
@@ -41,6 +41,16 @@ docker run --cap-add=SYS_PTRACE --security-opt seccomp=unconfined -it --platform
 可以使用gdb的参数：
 
 docker container run -it -v /Users/rads/study/csapp:/csapp --name=csapp centos /bin/bash
+
+23.12.17 17:00
+
+上面的配置可以“进一步”使用gdb了，但是还不够，我在台式机的vmware ubuntu22.04上试了一下，什么东西全都能用，我要破防了
+
+docker有各种问题可能因为他权限不足 还有跟这个草蛋的m2芯片的适配问题
+
+总之我还是决定装vmware
+
+https://blog.csdn.net/suixinfeixiangfei/article/details/133802925
 # 2 gdb
 ```shell
 #生成debug可执行文件test
