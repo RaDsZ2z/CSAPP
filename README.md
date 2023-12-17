@@ -1,3 +1,5 @@
+本机配置:m2 Sonoma 14.1.2
+
 [lab官网](https://csapp.cs.cmu.edu/3e/labs.html)
 # 1 环境配置
 docker linux
