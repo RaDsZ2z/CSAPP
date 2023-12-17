@@ -2,6 +2,7 @@
 
 [lab官网](https://csapp.cs.cmu.edu/3e/labs.html)
 # 1 环境配置
+## 23.12.09
 docker linux
 
 试了centos和ubuntu 还是ubuntu更好一些(我也更熟悉一些)
@@ -14,7 +15,7 @@ docker linux
 
 右键 复制链接地址 在浏览器粘贴地址
 
-23.12.16
+## 23.12.16
 
 ubuntu始终没法正常使用gdb，但是今天试了一下centos可以...
 
@@ -24,7 +25,7 @@ https://blog.csdn.net/weixin_43252521/article/details/124409151
 
 https://zhuanlan.zhihu.com/p/339047608
 
-23.12.17 12:00
+## 23.12.17 12:00
 
 之前ubuntu的参数是
 
@@ -42,7 +43,7 @@ docker run --cap-add=SYS_PTRACE --security-opt seccomp=unconfined -it --platform
 
 docker container run -it -v /Users/rads/study/csapp:/csapp --name=csapp centos /bin/bash
 
-23.12.17 17:00
+## 23.12.17 17:00
 
 上面的配置可以“进一步”使用gdb了，但是还不够，我在台式机的vmware ubuntu22.04上试了一下，什么东西全都能用，我要破防了
 
@@ -51,6 +52,12 @@ docker有各种问题可能因为他权限不足 还有跟这个草蛋的m2芯�
 总之我还是决定装vmware
 
 https://blog.csdn.net/suixinfeixiangfei/article/details/133802925
+
+## 23.12.17 19:36
+
+最终选择了这个
+
+https://blog.csdn.net/luzhengyang2077/article/details/129910484
 # 2 gdb
 ```shell
 #生成debug可执行文件test
