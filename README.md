@@ -1,6 +1,7 @@
 本机配置:m2 macOS Sonoma 14.1.2
 
 lab给出的二进制文件一般都要求跑在x86-64 或者 x86的linux上
+
 [lab官网](https://csapp.cs.cmu.edu/3e/labs.html)
 # 1 环境配置
 ## 23.12.09
@@ -65,7 +66,7 @@ https://blog.csdn.net/luzhengyang2077/article/details/129910484
 https://blog.csdn.net/weixin_45042601/article/details/131286353
 
 ## 23.12.19 10:00
-太卡了，应该是跟模拟了架构有关系，也不想再试试vmware了
+太卡了，应该是跟模拟了cpu架构有关系，也不想再试试vmware了
 
 我有台windows，就用上面的linux虚拟机吧，不折腾了...
 # 2 gdb
