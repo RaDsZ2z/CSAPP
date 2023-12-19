@@ -1,5 +1,6 @@
 本机配置:m2 macOS Sonoma 14.1.2
 
+lab给出的二进制文件一般都要求跑在x86-64 或者 x86的linux上
 [lab官网](https://csapp.cs.cmu.edu/3e/labs.html)
 # 1 环境配置
 ## 23.12.09
