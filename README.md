@@ -62,6 +62,11 @@ https://blog.csdn.net/luzhengyang2077/article/details/129910484
 共享文件夹
 
 https://blog.csdn.net/weixin_45042601/article/details/131286353
+
+## 23.12.19 10:00
+太卡了，应该是跟模拟了架构有关系，也不想再试试vmware了
+
+我有台windows，就用上面的linux虚拟机吧，不折腾了...
 # 2 gdb
 ```shell
 #生成debug可执行文件test
