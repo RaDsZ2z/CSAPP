@@ -76,12 +76,13 @@ g++ -g test.cpp -o test
 #反汇编生成汇编文件test.asm
 objdump -d test > test.asm
 ```
+
 ```shell
 #汇编代码生成二进制
 编写汇编代码 test.s
-gcc -c test.c #生成test.o
-objdump -d test.o > test.d
-#test.d可以看到汇编代码对应的二进制码
+gcc -c test.s #生成test.o
+objdump -d test.o
+可以看到汇编代码对应的二进制码
 ```
 
 gdb模式下：
