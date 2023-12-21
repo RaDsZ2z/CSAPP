@@ -76,6 +76,12 @@ g++ -g test.cpp -o test
 #反汇编生成汇编文件test.asm
 objdump -d test > test.asm
 ```
+```shell
+#汇编代码生成二进制
+
+
+```
+
 gdb模式下：
 ```shell
 x 0x6044e4 打印0x6044e4这个地址的值
