@@ -78,11 +78,11 @@ objdump -d test > test.asm
 ```
 
 ```shell
-#汇编代码生成二进制
+#汇编代码生成十六进制
 编写汇编代码 test.s
-gcc -c test.s #生成test.o
+gcc -c test.s #生成test.o 装的是二进制码
 objdump -d test.o
-可以看到汇编代码对应的二进制码
+可以看到汇编代码对应的十六进制码
 ```
 
 gdb模式下：
