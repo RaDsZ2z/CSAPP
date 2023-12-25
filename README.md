@@ -7,6 +7,10 @@ lab给出的二进制文件一般都要求跑在x86-64 或者 x86的linux上
 ## 23.12.09
 docker linux
 
+docker pull ubuntu:22.04
+
+docker run --cap-add=SYS_PTRACE --security-opt seccomp=unconfined -it --platform linux/amd64 -v "/Users/rads/study/csapp:/csapp" --name=csapp ubuntu:22.04 /bin/bash
+
 试了centos和ubuntu 还是ubuntu更好一些(我也更熟悉一些)
 
 [参考](https://blog.csdn.net/weixin_52693116/article/details/133149517)
