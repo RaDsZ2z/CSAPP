@@ -73,6 +73,8 @@ https://blog.csdn.net/weixin_45042601/article/details/131286353
 太卡了，应该是跟模拟了cpu架构有关系，也不想再试试vmware了
 
 我有台windows，就用上面的linux虚拟机吧，不折腾了...
+## 24.01.01
+gdb始终只能使用部分功能，我放弃“一定要配置好能完全使用gdb的环境”这个想法了
 # 2 gdb
 ```shell
 #生成debug可执行文件test
