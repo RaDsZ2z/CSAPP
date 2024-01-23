@@ -38,16 +38,16 @@ void eval(char *cmdline, char *envp[])
         if ((pid = Fork()) == 0)
         {
             //-----------
-            printf("argv:\n");
-            for (int i = 0; argv[i] != nullptr; i++)
-            {
-                printf("argv[%d]:%s\n", i, argv[i]);
-            }
-            printf("envp:\n");
-            for (int i = 0; envp[i] != nullptr; i++)
-            {
-                printf("envp[%d]:%s\n", i, envp[i]);
-            }
+            // printf("argv:\n");
+            // for (int i = 0; argv[i] != nullptr; i++)
+            // {
+            //     printf("argv[%d]:%s\n", i, argv[i]);
+            // }
+            // printf("envp:\n");
+            // for (int i = 0; envp[i] != nullptr; i++)
+            // {
+            //     printf("envp[%d]:%s\n", i, envp[i]);
+            // }
             //-----------
             if (execve(argv[0], argv, envp) < 0)
             {
@@ -99,16 +99,10 @@ int parseline(char *buf, char **argv)
     if (argc == 0)
         return 1;
     /* Should the job run in the background? */
-    if ((bg = (*argv[argc - 1] == '&')) != 0)
+    if ((bg = (*argv[argc - 1] == '&')) != false)
         argv[--argc] = nullptr;
 
     return bg;
-}
-
-void unix_error(const char *msg)
-{
-    fprintf(stderr, "%s: %s\n", msg, strerror(errno));
-    exit(0);
 }
 
 pid_t Fork()
