@@ -105,3 +105,12 @@ p/x 16进制
 p/d 10进制
 p/s 字符串(不确定)
 ```
+
+## 顺便写一下gcc常用指令
+```shell
+gcc -E test.c #预处理 生成test.i
+gcc -S test.c #编译  生成汇编代码 test.s
+gcc -c test.c #汇编  生成机器码test.o
+gcc -o test.c #链接  生成可执行文件
+(或者 gcc test.c)
+```
