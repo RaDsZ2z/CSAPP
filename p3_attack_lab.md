@@ -55,7 +55,9 @@ HEX2RAW要求两位十六进制值由一个或多个空格分隔。因此，如�
 
 # phase1 (4.1 of attacklab.pdf)
 <img width="489" alt="image" src="https://github.com/RaDsZ2z/CSAPP/assets/129292565/21cb3c2f-d12a-410e-bff5-8e923dc8c233">
+
 getbuf在ctarget中由具有以下C代码的函数测试调用
+
 ```cpp
 void test()
 {
@@ -64,8 +66,11 @@ void test()
     printf("No exploit. Getbuf returned 0x%x\n", val);
 }
 ```
+
 当getbuf执行其返回语句时，程序通常会在test函数中恢复执行，我们想改变这种行为。
+
 在文件ctarget中，存在具有以下C表示的函数touch1代码
+
 ```cpp
 void touch1()
 {
