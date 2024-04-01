@@ -3,7 +3,7 @@
 lab给出的二进制文件一般都要求跑在x86-64 或者 x86的linux上
 
 [lab官网](https://csapp.cs.cmu.edu/3e/labs.html)
-# 1 环境配置
+# 环境配置
 ## 23.12.09
 docker linux
 
@@ -75,6 +75,10 @@ https://blog.csdn.net/weixin_45042601/article/details/131286353
 我有台windows，就用上面的linux虚拟机吧，不折腾了...
 ## 24.01.01
 gdb始终只能使用部分功能，我放弃“一定要配置好能完全使用gdb的环境”这个想法了
+## 24.04.01
+找何睿昊借了阿里云服务器，看起来能正常使用GDB了，我好感动
+<img width="570" alt="image" src="https://github.com/RaDsZ2z/CSAPP/assets/129292565/a5cc5f9b-bd25-468e-a231-bc2087c7adc8">
+
 # 2 gdb
 ```shell
 #生成debug可执行文件test
