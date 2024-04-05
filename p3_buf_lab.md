@@ -1,3 +1,9 @@
+Attacklab:
+
+Note: This is the 64-bit successor to the 32-bit Buffer Lab.
+
+相当于是我把这个lab做了两遍，嗯...也不错，至少第二遍我成功用上了gdb
+
 <a href="#level0">Level 0</a>
 
 <a href="#level1">Level 1</a>
