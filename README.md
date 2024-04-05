@@ -78,6 +78,10 @@ gdb始终只能使用部分功能，我放弃“一定要配置好能完全使�
 ## 24.04.01
 找何睿昊借了阿里云服务器，看起来能正常使用GDB了，我好感动
 <img width="570" alt="image" src="https://github.com/RaDsZ2z/CSAPP/assets/129292565/a5cc5f9b-bd25-468e-a231-bc2087c7adc8">
+## 24.04.05
+此时的我正在做archlab，环境很难配，找到[一篇博客](https://cloud.tencent.com/developer/article/2345761)的docker可以拿过来直接用
+
+docker里甚至看起来有后面几个lab的环境
 
 # 2 gdb
 ```shell
