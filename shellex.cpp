@@ -1,7 +1,9 @@
-#include "csapp.h"
+// 见CSAPP P524开始
+#include <iostream>
+#include <unistd.h>
 using namespace std;
 const int MAXARGS = 128;
-const int MAXLINE = 128;
+const int MAXLINE = 8192;
 
 void eval(char *cmdline, char *envp[]);
 int parseline(char *buf, char **argv);
@@ -119,4 +121,9 @@ void Fgets(char *str)
     int len = strlen(str);
     if (len >= MAXLINE - 1)
         unix_error("Fgets error");
+}
+void unix_error(const char *msg) /* Unix-style error */
+{
+    fprintf(stderr, "%s: %s\n", msg, strerror(errno));
+    exit(0);
 }
