@@ -1,1 +1,1 @@
-![any](../images/9_39.jpg)
+![9_39](../images/9_39.jpg)
