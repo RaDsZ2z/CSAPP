@@ -1,1 +1,1 @@
-[picture](../images/9_39.jpg)
+<img>src="../images/9_39.jpg"</img>
