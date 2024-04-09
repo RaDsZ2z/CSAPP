@@ -465,7 +465,7 @@ void sigchld_handler(int sig)
 {
     int oldno = errno;
     // 回收子进程
-    while (waitpid(-1, 0, 0) > 0)
+    while (waitpid(-1, 0, WNOHANG) > 0)
     {
         // print message
     }
