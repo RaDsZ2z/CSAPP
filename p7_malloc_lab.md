@@ -1,1 +1,1 @@
-<img src="#../images/9_39.jpg" >
+![any](../images/9_39.jpg)
