@@ -149,4 +149,5 @@ malloclab-handout.tar分发版中的驱动程序mdriver.c测试mm.c包的正确�
 
 
 # 10.check
+我写的时候默认函数传入参数名为ptr时，对应的是p而非bp，但是参考了一些博客似乎都应该认为传入的参数是bp
 
