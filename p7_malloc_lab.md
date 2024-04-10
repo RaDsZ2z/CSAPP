@@ -148,3 +148,5 @@ malloclab-handout.tar分发版中的驱动程序mdriver.c测试mm.c包的正确�
 
 
 
+# 10.check
+
