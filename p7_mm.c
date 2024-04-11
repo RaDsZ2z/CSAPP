@@ -60,10 +60,12 @@ team_t team = {
 #define GET_SIZE(p) (GET(p) & ~0x7)
 #define GET_ALLOC(p) (GET(p) & 0x1)
 
+// 下面这两个return p
 /* Given block ptr bp, compute address of its header and footer */
 #define HDRP(bp) ((char *)(bp)-WSIZE)
 #define FTRP(bp) ((char *)(bp) + GET_SIZE(HDRP(bp)) - DSIZE)
 
+// 下面这两个return bp
 /* Given block ptr bp, compute address of next and previous blocks */
 #define NEXT_BLKP(bp) ((char *)(bp) + GET_SIZE(((char *)(bp)-WSIZE)))
 #define PREV_BLKP(bp) ((char *)(bp)-GET_SIZE(((char *)(bp)-DSIZE)))
@@ -98,8 +100,9 @@ static void *coalesce(void *bp)
     else if (!prev_alloc && next_alloc)
     {
         size += GET_SIZE(HDRP(PREV_BLKP(bp)));
-        PUT(HDRP(PREV_BLKP(bp)), PACK(size, 0));
+        // 下面两行的位置不能交换
         PUT(FTRP(bp), PACK(size, 0));
+        PUT(HDRP(PREV_BLKP(bp)), PACK(size, 0));
         bp = PREV_BLKP(bp);
     }
     else
@@ -107,7 +110,7 @@ static void *coalesce(void *bp)
         size += GET_SIZE(HDRP(PREV_BLKP(bp))) +
                 GET_SIZE(HDRP(NEXT_BLKP(bp)));
         PUT(HDRP(PREV_BLKP(bp)), PACK(size, 0));
-        PUT(HDRP(NEXT_BLKP(bp)), PACK(size, 0));
+        PUT(FTRP(NEXT_BLKP(bp)), PACK(size, 0));
         bp = PREV_BLKP(bp);
     }
     return bp;
@@ -200,6 +203,10 @@ void *mm_malloc(size_t size)
     size_t asize;
     size_t extendsize;
     char *bp;
+    if (heap_listp == 0)
+    {
+        mm_init();
+    }
 
     if (size == 0)
         return NULL;
@@ -223,6 +230,7 @@ void *mm_malloc(size_t size)
         return bp;
     }
 
+    ;
     // 找不到合适的块则需要请求额外的内存空间
     extendsize = MAX(asize, CHUNKSIZE);
     if ((bp = extend_heap(extendsize / WSIZE)) == NULL)
@@ -234,28 +242,64 @@ void *mm_malloc(size_t size)
 /*
  * mm_free - Freeing a block does nothing.
  */
-void mm_free(void *ptr)
+void mm_free(void *bp)
 {
     // write by myself
-    size_t size = GET_SIZE(ptr);
-    PUT(ptr, PACK(size, 0));
-    PUT((char *)ptr + size - WSIZE, PACK(size, 0));
+    if (bp == NULL)
+        return;
+    size_t size = GET_SIZE(HDRP(bp));
+    PUT(HDRP(bp), PACK(size, 0));
+    PUT(FTRP(bp), PACK(size, 0));
 
-    coalesce((char *)ptr + WSIZE);
+    coalesce(bp);
 }
 
 /*
  * mm_realloc - Implemented simply in terms of mm_malloc and mm_free
  */
+// void *mm_realloc(void *ptr, size_t size)
+// {
+//     size_t oldsize;
+//     void *newptr;
+
+//     /* If size == 0 then this is just free, and we return NULL. */
+//     if (size == 0)
+//     {
+//         mm_free(ptr);
+//         return 0;
+//     }
+
+//     /* If oldptr is NULL, then this is just malloc. */
+//     if (ptr == NULL)
+//     {
+//         return mm_malloc(size);
+//     }
+
+//     newptr = mm_malloc(size);
+
+//     /* If realloc() fails the original block is left untouched  */
+//     if (!newptr)
+//     {
+//         return 0;
+//     }
+
+//     /* Copy the old data. */
+//     oldsize = GET_SIZE(HDRP(ptr));
+//     if (size < oldsize)
+//         oldsize = size;
+//     memcpy(newptr, ptr, oldsize);
+
+//     /* Free the old block. */
+//     mm_free(ptr);
+
+//     return newptr;
+// }
+
 void *mm_realloc(void *ptr, size_t size)
 {
-    // mm_malloc返回的指针是宏中的bp(find_it返回的是bp)
-    // 所以这个函数也应该返回bp吧
-    // (bp p两个指针具体指向块的位置见md文件)
-
-    // 入参ptr应该是宏中的p(我自己是这么理解的)
-
-    void *bp = (char *)ptr + WSIZE;
+    // ptr = coalesce(ptr);
+    // 不能一开始就回收内存碎片 这样会找不到原来的数据存在哪里
+    //  ptr对应的就是bp
     if (ptr == NULL)
         return mm_malloc(size);
     if (size == 0)
@@ -263,56 +307,108 @@ void *mm_realloc(void *ptr, size_t size)
         mm_free(ptr);
         return NULL;
     }
-    size = ALIGN(size);
-    size += DSIZE;
-    size_t oldSize = GET_SIZE(bp + WSIZE);
-    if (oldSize == size)
-        return bp;
-    else if (size < oldSize)
-    {
-        // 重新申请的空间小于原来的空间
-        // 如果剩余的空间能够分出一个块 则分出来
-        // 否则不管
-        if (oldSize - size >= 2 * DSIZE)
-        {
-            PUT(HDRP(bp), PACK(size, 1));
-            PUT(FTRP(bp), PACK(size, 1));
-            void *nextBp = NEXT_BLKP(bp);
-            PUT(HDRP(nextBp), PACK(oldSize - size, 0));
-            PUT(FTRP(nextBp), PACK(oldSize - size, 0));
-        }
-        return bp;
-    }
-    else
-    {
-        // 重新申请的空间大于原来的空间
-        // 先试着回收附近的内存碎片
-        void *newBp = coalesce(bp);
-        size_t nowSize = GET_SIZE(HDRP(newBp));
 
-        if (nowSize >= size)
+    size_t oldSize = GET_SIZE(HDRP(ptr));
+    size_t newSize = ALIGN(size);
+    newSize += DSIZE;
+    void *newPtr;
+    if (newSize == oldSize)
+        return ptr;
+    else if (newSize < oldSize)
+    {
+        if (oldSize - newSize >= 2 * DSIZE)
         {
-            // 回收之后够了
-            memcpy((char *)newBp - WSIZE, (char *)bp - WSIZE, oldSize);
-            void *nextBp = NEXT_BLKP(newBp);
-            PUT(HDRP(nextBp), PACK(nowSize - oldSize, 0));
-            PUT(FTRP(nextBp), PACK(nowSize - oldSize, 0));
-            return newBp;
+            // place_alloc(ptr,oldSize,newSize);
+            PUT(HDRP(ptr), PACK(newSize, 1));
+            PUT(FTRP(ptr), PACK(newSize, 1));
+            newPtr = NEXT_BLKP(ptr);
+            PUT(HDRP(newPtr), PACK(oldSize - newSize, 0));
+            PUT(FTRP(newPtr), PACK(oldSize - newSize, 0));
+            coalesce(newPtr);
         }
-        else
-        {
-            // 不够则申请新的空间
-            // 申请新的空间失败 返回-1
-            void *p = mm_malloc(size);
-            if (p == (void *)-1)
-            {
-                return (void *)-1;
-            }
-            else
-            {
-                mm_free(ptr);
-                return p;
-            }
-        }
+        return ptr;
     }
+    //---------------------
+    // if (!GET_ALLOC(HDRP(NEXT_BLKP(ptr))))
+    // {
+    //     // 首先获取当前块和下一个块的大小
+    //     size_t trySize = GET_SIZE(HDRP(ptr)) + GET_SIZE(HDRP(NEXT_BLKP(ptr)));
+    //     // 如果合并后的大小大于等于newSize，则将两个块合并，并通过调用place_alloc函数将新块切割为大小为newSize
+    //     if (trySize - newSize >= 0)
+    //     {
+    //         /* 合并：空闲链表中的free块并设置新块的头尾  */
+    //         // freeNode(NEXT_BLKP(ptr));
+
+    //         //-------------
+
+    //         PUT(HDRP(ptr), PACK(trySize, 1));
+    //         PUT(FTRP(ptr), PACK(trySize, 1));
+    //         if (trySize - newSize >= 2 * DSIZE)
+    //         {
+    //             // place_alloc(ptr, trySize, newSize);
+    //             PUT(HDRP(ptr), PACK(newSize, 1));
+    //             PUT(FTRP(ptr), PACK(newSize, 1));
+    //             newPtr = NEXT_BLKP(ptr);
+    //             PUT(HDRP(newPtr), PACK(trySize - newSize, 0));
+    //             PUT(FTRP(newPtr), PACK(trySize - newSize, 0));
+    //             coalesce(newPtr);
+    //         }
+    //         return ptr;
+    //     }
+    // }
+
+    // 如果两个块的合并无法满足需求，只能重新分配一个大小为newSize的新块。
+    // 调用mm_malloc函数尝试分配一块新的内存，并使用memcpy函数将原来的内存中的数据拷贝到新的内存中。
+    if ((newPtr = mm_malloc(newSize)) == NULL)
+    {
+        return NULL;
+    }
+    memcpy(newPtr, ptr, oldSize);
+
+    // 最后，释放原来的内存，并返回新分配的内存的首地址。
+    mm_free(ptr);
+    return newPtr;
+
+    // else
+    // {
+    //     // newSize > oldSize
+
+    //     // 先试着回收内存碎片
+    //     newPtr = coalesce(ptr);
+    //     size_t coalSize = GET_SIZE(HDRP(ptr));
+    //     // 回收内存碎片之后的大小可以满足申请
+    //     if (coalSize > newSize)
+    //     {
+    //         if (newPtr < ptr)
+    //         {
+
+    //             // 向前扩展了 需要把数据移上去
+    //             // 否则数据不需要动
+    //             // 如果两段数据位置有重叠，可能得到错误的结果？
+    //             memcpy(newPtr, ptr, oldSize);
+    //         }
+
+    //         if (coalSize - newSize >= 2 * DSIZE)
+    //         {
+    //             PUT(HDRP(newPtr), PACK(newSize, 1));
+    //             PUT(FTRP(newPtr), PACK(newSize, 1));
+    //             ptr = NEXT_BLKP(newPtr);
+    //             PUT(HDRP(ptr), PACK(coalSize - newSize, 0));
+    //             PUT(FTRP(ptr), PACK(coalSize - newSize, 0));
+    //         }
+
+    //         return newPtr;
+    //     }
+    //     else
+    //     {
+    //         // 回收内存碎片后也没有足够的空间，只能malloc
+    //         newPtr = mm_malloc(newSize);
+    //         if (newPtr == NULL)
+    //             return NULL;
+    //         memcpy(newPtr, ptr, oldSize);
+    //         mm_free(ptr);
+    //         return newPtr;
+    //     }
+    //     // newSize > oldSize
+    // }
 }
