@@ -159,8 +159,8 @@ malloclab-handout.tar分发版中的驱动程序mdriver.c测试mm.c包的正确�
 
 闲了再来改改吧
 
-![check1](../images/check1)
+![check1](../images/check1.jpg)
 
-![check2](../images/check2)
+![check2](../images/check2.jpg)
 
-![check3](../images/check3)
+![check3](../images/check3.jpg)
