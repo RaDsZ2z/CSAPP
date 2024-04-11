@@ -134,10 +134,12 @@ malloclab-handout.tar分发版中的驱动程序mdriver.c测试mm.c包的正确�
 #define GET_SIZE(p) (GET(p) & ~0x7)
 #define GET_ALLOC(p) (GET(p) & 0x1)
 
+// 下面这两个return p
 /* Given block ptr bp, compute address of its header and footer */
 #define HDRP(bp) ((char *)(bp)-WSIZE)
 #define FTPR(bp) ((char *)(bp) + GET_SIZE(HDRP(bp)) - DSIZE)
 
+// 下面这两个return bp
 /* Given block ptr bp, compute address of next and previous blocks */
 #define NEXT_BLKP(bp) ((char *)(bp) + GET_SIZE(((char *)(bp)-WSIZE)))
 #define PREV_BLKP(bo) ((char *)(bp)-GET_SIZE(((char *)(bp) + DSIZE)))
