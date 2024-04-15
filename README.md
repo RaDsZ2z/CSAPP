@@ -90,6 +90,8 @@ gdb始终只能使用部分功能，我放弃“一定要配置好能完全使�
 此时的我正在做archlab，环境很难配，找到[一篇博客](https://cloud.tencent.com/developer/article/2345761)的docker可以拿过来直接用
 
 docker里甚至看起来有后面几个lab的环境
+## 24.04.11
+这下好了 我自己买了云服务器
 
 # 2 gdb
 ```shell
